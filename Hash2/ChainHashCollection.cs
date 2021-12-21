@@ -27,11 +27,11 @@ namespace Hash2
             else
                 key = item.GetHashCode();
 
-            /*if (key >= 1)
-                return (int)(key % Size);
-            else
-                return (int)(key*Size);*/
-            return (int)(key*Size % Size);
+            //return (int)(key*Size % Size);
+            int hash = (int)key;
+            for (int i = 1; i <= 50; i++)
+                hash += (int)(key * Math.Pow(10, i)) - (int)(key * Math.Pow(10, i - 1)) * 10;
+            return Math.Abs(hash % Size);
         }
 
         public void Add(T item)
@@ -129,7 +129,8 @@ namespace Hash2
             int difference = 0;
             foreach (List<T> el in elements)
                 if (el != null)
-                    difference += Math.Abs(perfectCount - el.Count);
+                    if (el.Count - perfectCount > 0)
+                        difference += el.Count - perfectCount;
 
             return 1 - (double)difference / Count;
         }
