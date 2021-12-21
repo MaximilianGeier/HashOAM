@@ -6,8 +6,9 @@ namespace Hash2
 {
     class HashOAM
     {
-        private readonly int M = 10000;
         public object[] HashTable { get; }
+        private readonly int M = 10000;
+        private readonly List<int> Average = new List<int>();
         private readonly bool[] Flags;
 
         public HashOAM()
@@ -15,6 +16,25 @@ namespace Hash2
             HashTable = new object[M];
             Flags = new bool[M];
             ResetFlags();
+        }
+
+        public double GetAverageLen()
+        {
+            int sum = 0;
+            foreach (var item in Average)
+                sum += item;
+            return (double)sum / Average.Count;
+        }
+
+        public int GetMaxChainLen()
+        {
+            int maxNum = 0;
+            foreach (var item in Average)
+            {
+                if (item > maxNum)
+                    maxNum = item;
+            }
+            return maxNum;
         }
 
         private void ResetFlags()
@@ -28,12 +48,14 @@ namespace Hash2
         public int Insert(double item)
         {
             int i = 0;
+            int j;
             do
             {
-                int j = HashFunction(item, i);
+                j = HashFunction(item, i);
                 if(HashTable[j] is null || Flags[j])
                 {
                     HashTable[j] = item;
+                    Average.Add(i + 1);
                     return j;
                 }
                 else
@@ -68,8 +90,8 @@ namespace Hash2
         private int HashFunction(double item, int index)
         {
             var h1 = item % M;
-            var h2 = 1 + item % (M - 3);
-            return Convert.ToInt32((h1 + index * h2) % M);
+            var h2 = item * M % M;
+            return (int)(h1 + h2 + index * Math.PI) % M;
         }
     }
 }
