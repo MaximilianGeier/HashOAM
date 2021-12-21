@@ -29,9 +29,17 @@ namespace Hash2
 
             //return (int)(key*Size % Size);
             int hash = (int)key;
-            for (int i = 1; i <= 50; i++)
+            for (int i = 1; i <= GetNumberLength(key); i++)
                 hash += (int)(key * Math.Pow(10, i)) - (int)(key * Math.Pow(10, i - 1)) * 10;
             return Math.Abs(hash % Size);
+        }
+        private static int GetNumberLength(double num)
+        {
+            string str = num.ToString();
+            if (!str.Contains('E'))
+                return str.Length;
+            else
+                return Math.Abs(Int32.Parse(str.Substring(str.IndexOf('E')+1)));
         }
 
         public void Add(T item)
@@ -126,6 +134,7 @@ namespace Hash2
             int perfectCount = (int)Math.Round(Count / (double)Size);
             if (perfectCount == 0)
                 perfectCount = 1;
+
             int difference = 0;
             foreach (List<T> el in elements)
                 if (el != null)
@@ -154,5 +163,13 @@ namespace Hash2
 
             return minLength;
         }
-    }
+        public int[] GetChainLenghts()
+        {
+            int[] output = new int[elements.Length];
+            for (int i = 0; i < elements.Length; i++)
+                output[i] = elements[i] != null ? elements[i].Count : 0;
+
+            return output; 
+        }
+     }
 }

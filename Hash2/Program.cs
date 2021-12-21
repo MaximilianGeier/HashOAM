@@ -11,7 +11,7 @@ namespace Hash2
             Random rnd = new Random();
             double[] nums = new double[9000];
             for (int i = 0; i < nums.Length; i++)
-                nums[i] = rnd.NextDouble()*(rnd.Next(9)+1)/1E+1;
+                nums[i] = (int)(rnd.NextDouble()*1000)+rnd.NextDouble();
 
             /*foreach (var item in nums)
                 temp.Insert(item);
@@ -43,9 +43,15 @@ namespace Hash2
             Console.WriteLine("Длина кратчайшей цепочки: " + hashCol.GetLenghtOfShortestList());
             Console.WriteLine("Длина длиннейшей цепочки: " + hashCol.GetLenghtOfLongestList());
 
+            /*Console.Write("Длины: [");
+            foreach (int el in hashCol.GetChainLenghts())
+                Console.Write(el + " ,");
+            Console.Write("]");*/
+
             foreach (double num in nums)
                 if (!hashCol.Remove(num))
                     throw new Exception("Хеш не совпал для одного и того же ключа");
+            Console.WriteLine(hashCol.Count);
         }
     }
 }
