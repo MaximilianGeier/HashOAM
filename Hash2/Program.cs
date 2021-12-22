@@ -17,25 +17,6 @@ namespace Hash2
             foreach (var item in nums)
                 hash2.Insert(item);
 
-            List<int> average = new List<int>();
-            int maxLen = 0;
-            int currentLen = 0;
-            for (int i = 0; i < hash2.HashTable.Length; i++)
-            {
-                if (hash2.HashTable[i] != null)
-                    currentLen++;
-                else
-                {
-                    if (currentLen > maxLen)
-                        maxLen = currentLen;
-                    currentLen = 0;
-                    if (currentLen > 0)
-                        average.Add(currentLen);
-                }
-            }
-
-            //Console.WriteLine(temp.MaxLength);
-
             ChainHashCollection<double> hashCol = new ChainHashCollection<double>(1000);
 
             foreach (double num in nums)
@@ -47,7 +28,7 @@ namespace Hash2
             Console.WriteLine("Длина длиннейшей цепочки: " + hashCol.GetLenghtOfLongestList());
 
             Console.WriteLine("___________________________________");
-            Console.WriteLine("Максимальная длина цепи: " + maxLen);
+            Console.WriteLine("Максимальная длина цепи: " + hash2.GetMaxLen());
             Console.WriteLine("Среднее количество переходов: " + hash2.GetAverageLen());
             Console.WriteLine("Максимальное количество переходов: " + hash2.GetMaxChainLen());
         }

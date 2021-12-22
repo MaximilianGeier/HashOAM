@@ -26,6 +26,26 @@ namespace Hash2
             return (double)sum / Average.Count;
         }
 
+        public int GetMaxLen()
+        {
+            int maxLen = 0;
+            int currentLen = 0;
+            for (int i = 0; i < HashTable.Length; i++)
+            {
+                if (HashTable[i] != null)
+                    currentLen++;
+                else
+                {
+                    if (currentLen > maxLen)
+                        maxLen = currentLen;
+                    currentLen = 0;
+                }
+            }
+            if (currentLen > maxLen)
+                maxLen = currentLen;
+            return maxLen;
+        }
+
         public int GetMaxChainLen()
         {
             int maxNum = 0;
@@ -91,7 +111,7 @@ namespace Hash2
         {
             var h1 = item % M;
             var h2 = item * M % M;
-            return (int)(h1 + h2 + index * Math.PI) % M;
+            return (int)(h1 + h2 + index * Math.PI * h2) % M;
         }
     }
 }
