@@ -28,6 +28,7 @@ namespace Hash2
                 key = item.GetHashCode();
 
             //return (int)(key*Size % Size);
+            //return (int)(Size * ((key * 0.82312454123) % 1));
             int hash = (int)key;
             for (int i = 1; i <= GetNumberLength(key); i++)
                 hash += (int)(key * Math.Pow(10, i)) - (int)(key * Math.Pow(10, i - 1)) * 10;
@@ -80,8 +81,11 @@ namespace Hash2
         }
         public List<T> GetSameElements(T item)
         {
-            return elements[GetHash(item)];
-            HashSet<T> set = new HashSet<T>();
+            int hash = GetHash(item);
+            if (hash > 0 && hash < Size)
+                return elements[hash];
+            else
+                throw new Exception("Неверный хэш");
         }
         public bool Contains(T item)
         {
